@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SeasionDisplay from './SeasionDisplay';
-
+import Loading from './Loading';
 class App extends React.Component {
   state = { lat: null, errMessage: '' };
 
@@ -11,7 +11,8 @@ class App extends React.Component {
       (err) => this.setState({ errMessage: err.message })
     );
   }
-  render() {
+
+  renderContent() {
     if (this.state.errMessage && !this.state.lat) {
       return <div>Error: {this.state.errMessage}</div>;
     } else if (this.state.lat && !this.state.errMessage) {
@@ -21,8 +22,15 @@ class App extends React.Component {
         </div>
       );
     } else {
-      return <div>Loading...</div>;
+      return (
+        <div>
+          <Loading />
+        </div>
+      );
     }
+  }
+  render() {
+    return <div>{this.renderContent()}</div>;
   }
 }
 ReactDOM.render(<App />, document.querySelector('#root'));
